@@ -1,0 +1,5 @@
+anthropic
+praw
+tweepy
+schedule
+python-dotenv
