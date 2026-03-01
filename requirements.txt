@@ -3,3 +3,5 @@ praw
 tweepy
 schedule
 python-dotenv
+google-generativeai
+feedparser
