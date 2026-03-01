@@ -1,0 +1,31 @@
+name: Daily News Digest
+
+on:
+  schedule:
+    - cron: '30 2 * * *'  # 8:00 AM IST (UTC+5:30) = 2:30 AM UTC
+  workflow_dispatch:        # allows you to run it manually from GitHub too
+
+jobs:
+  send-digest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run news agent
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GMAIL_ADDRESS: ${{ secrets.GMAIL_ADDRESS }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENT_EMAIL: ${{ secrets.RECIPIENT_EMAIL }}
+          GOOGLE_NEWS_TOPICS: ${{ secrets.GOOGLE_NEWS_TOPICS }}
+        run: python agent.py
